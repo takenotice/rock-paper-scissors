@@ -1,4 +1,9 @@
-console.log('Hello World!')
+let playerSelection;
+let computerSelection;
+let playerWins;
+let computerWins;
+
+console.log(game());
 
 function computerPlay() {
     let rand = Math.floor(Math.random()*3);
@@ -11,10 +16,13 @@ function computerPlay() {
     }
 }
 
+function playerPlay() {
+    return window.prompt('Choose rock, paper or scissors');
+}
+
 function playRound(computerSelection, playerSelection) {
-    if (playerSelection !== ('rock' || 'paper' || 'scissors')) { // check for valid input
-        return 'Invalid Selection.'
-    } else if (computerSelection === playerSelection) { // check for tie
+    
+    if (computerSelection === playerSelection) { // check for tie
         return "It's a tie!";
     } else if (computerSelection === 'rock') {
         return playerSelection === 'paper' ? win() : lose();
@@ -26,20 +34,27 @@ function playRound(computerSelection, playerSelection) {
 }
 
 function game() {
-    getPlayerSelection();
-    computerPlay();
-    console.log(playRound(computerSelection, playerSelection));
-}
+    playerWins = 0;  // reset win counters
+    computerWins = 0;
 
-function getPlayerSelection() {
-const playerSelection = window.prompt('Choose rock, paper or scissors');
+    for (let i = 1; i <6; i++) {
+        playerSelection = playerPlay()
+        computerSelection = computerPlay();
+        console.log(`Round ${i}`);
+        console.log(`You: ${playerSelection} Vs. COM: ${computerSelection}...`);
+        console.log(playRound(computerSelection, playerSelection));
+        console.log('\n');
+    }
+    return playerWins > computerWins ? 'Nice! You are the RPS Champ!' : 'Too Bad! Better luck next time!'
 }
 
 function win() {
+    playerWins++;
     return `You win! ${playerSelection} beats ${computerSelection}`;
 }
 
 function lose() {
+    computerWins++;
     return `You lose! ${computerSelection} beats ${playerSelection}`;
 }
 
